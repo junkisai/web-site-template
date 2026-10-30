@@ -19,7 +19,7 @@
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.1",
     "syncpack": "15.3.3",
-    "turbo": "2.10.12",
+    "turbo": "2.11.10",
     "typescript": "6.0.3"
   },
   "packageManager": "pnpm@11.24.0"
