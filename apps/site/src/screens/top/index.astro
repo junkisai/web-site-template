@@ -1,0 +1,61 @@
+---
+import { css } from 'styled-system/css'
+import { inner } from 'styled-system/patterns'
+import RevealOnScroll from '@/components/ui/reveal-on-scroll.astro'
+
+// 仮のトップページ。中身を作るときは、まとまりごとに components/ へ分けて、ここに並べる
+const steps = [
+  'ページの URL は src/pages/ に置く',
+  '画面の中身は src/screens/ に置く',
+  '色と書体はトークンで書く（panda.config.ts）',
+]
+---
+
+<main
+  class={inner({
+    display: 'grid',
+    gap: '16px',
+    // 日本語を語の区切りで折り返す（1〜2 字だけが次の行に落ちるのを防ぐ。対応していないブラウザはふつうに折り返す）
+    wordBreak: 'auto-phrase',
+    paddingBlock: '64px',
+    pc: { paddingBlock: '96px' },
+  })}
+>
+  {/* 画面に入ったら、下から浮かび上がる。動きを出さないときは最初から見えている */}
+  <h1
+    class={css({
+      textStyle: 'heading',
+      fontWeight: 800,
+      lineHeight: 1.45,
+      color: 'accent',
+      _motion: {
+        opacity: 0,
+        translate: '[0 20px]',
+        transition:
+          '[opacity 0.7s cubic-bezier(.33, 1, .68, 1), translate 0.7s cubic-bezier(.33, 1, .68, 1)]',
+        _shown: { opacity: 1, translate: '[0 0]' },
+      },
+    })}
+    data-reveal
+  >
+    Web サイトのテンプレート
+  </h1>
+  <p>サイトの中身は、ここから作ります。</p>
+  <ul
+    class={css({
+      layerStyle: 'panel',
+      display: 'grid',
+      gap: '8px',
+      padding: '20px',
+      pc: { padding: '24px 28px' },
+    })}
+  >
+    {steps.map((step) => (
+      <li>{step}</li>
+    ))}
+  </ul>
+  <p class={css({ textStyle: 'note', color: 'textMuted' })}>
+    置き場所と書き方は docs/architecture/ にあります。
+  </p>
+</main>
+<RevealOnScroll />

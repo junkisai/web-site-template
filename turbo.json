@@ -1,0 +1,13 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "gen": {},
+    "dev": {},
+    "lint": {
+      // astro check は panda codegen の生成物の型を読む。
+      // panda.config.ts を変えたあとでも、古い型のまま検査しないようにする
+      "dependsOn": ["gen"]
+    },
+    "fmt": {}
+  }
+}

@@ -1,0 +1,125 @@
+/*
+ * Panda が生成する CSS の @layer の順番。生成物はこの順に積まれる。
+ * 順番だけを宣言していて、中身は @pandacss/vite が注入する。
+ */
+@layer reset, base, tokens, recipes, utilities;
+
+/*
+ * Panda の preflight を外したので、この app が実際に頼っている reset だけを
+ * ここに置いている（元は Tailwind CSS / MIT License）。
+ *
+ * 必ず @layer reset の中に書く。ブラウザは @layer の外の CSS を中の CSS より
+ * 常に優先するので、外に出すと `a { color: inherit }` などが Panda のスタイルに勝つ。
+ *
+ * html / body の色とフォントは panda.config.ts の globalCss からトークンで当てる。
+ * 個別の要素のスタイルは、このファイルではなく各 .astro の `css()` に書く。
+ */
+@layer reset {
+  *,
+  *::before,
+  *::after,
+  ::backdrop,
+  ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+
+  html {
+    color-scheme: light;
+    line-height: 1.5;
+    tab-size: 4;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  b,
+  strong {
+    font-weight: bolder;
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--fonts-mono);
+    font-size: 1em;
+  }
+
+  ol,
+  ul,
+  menu {
+    list-style: none;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  audio,
+  iframe,
+  embed,
+  object {
+    display: block;
+    vertical-align: middle;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  button,
+  input,
+  select,
+  optgroup,
+  textarea,
+  ::file-selector-button {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+
+  button,
+  input:where([type='button'], [type='reset'], [type='submit']),
+  ::file-selector-button {
+    appearance: button;
+  }
+
+  ::placeholder {
+    opacity: 1;
+    color: color-mix(in oklab, currentcolor 50%, transparent);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  [hidden]:where(:not([hidden='until-found'])) {
+    display: none !important;
+  }
+}

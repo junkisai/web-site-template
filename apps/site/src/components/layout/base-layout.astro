@@ -1,0 +1,91 @@
+---
+import { Font } from 'astro:assets'
+import '@/styles/globals.css'
+
+type Props = {
+  title: string
+  description: string
+  /** og:site_name。省くと出さない */
+  siteName?: string
+  /** OGP 画像。public/ からのパス。絶対 URL にするため、astro.config.ts の site が無いうちは出さない */
+  ogImage?: { path: string; width: number; height: number; alt: string }
+  /** 検索に出さない（noindex, nofollow）。限られた人にだけ配るページで付ける */
+  noindex?: boolean
+}
+
+const { title, description, siteName, ogImage, noindex = false } = Astro.props
+const site = Astro.site
+// Cloudflare Web Analytics のサイトのトークン（ダッシュボードの Web Analytics → Manage site の JS スニペットにある値）。
+// ページの HTML にそのまま出る公開の値。空のうちは、ページビューを数えるビーコンを出さない
+const webAnalyticsToken = ''
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    {siteName && <meta property="og:site_name" content={siteName} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="ja_JP" />
+    {site && (
+      <>
+        <meta
+          property="og:url"
+          content={new URL(Astro.url.pathname, site).href}
+        />
+        {ogImage && (
+          <>
+            <meta
+              property="og:image"
+              content={new URL(ogImage.path, site).href}
+            />
+            <meta property="og:image:width" content={String(ogImage.width)} />
+            <meta property="og:image:height" content={String(ogImage.height)} />
+            <meta property="og:image:alt" content={ogImage.alt} />
+          </>
+        )}
+        <meta name="twitter:card" content="summary_large_image" />
+      </>
+    )}
+    {/* favicon を置くまで、ブラウザが /favicon.ico を取りに行って 404 になるのを止める */}
+    <link rel="icon" href="data:," />
+    <Font cssVariable="--font-ja" />
+    {/*
+      動きを出してよいときだけ <html> に data-motion を付ける。「出る前に隠す」スタイルは
+      data-motion があるときだけ当たるので、JS が動かない・視差効果を減らす設定・#still では最初から全部見える
+    */}
+    <script is:inline>
+      try {
+        if (
+          location.hash !== '#still' &&
+          !/[?&]still\b/.test(location.search) &&
+          matchMedia('(prefers-reduced-motion: no-preference)').matches
+        )
+          document.documentElement.setAttribute('data-motion', '')
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <slot />
+    {/*
+      ページビューを数える Cloudflare Web Analytics のビーコン。トークンを入れたときだけ出る、このサイトで唯一の外から読む JS。
+      Workers のカスタムドメインで自動の設定が効くかはドキュメントで確かめられないので、自動の設定に任せずここに書く（1 ページに 1 つだけ）
+    */}
+    {webAnalyticsToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: webAnalyticsToken })}
+      />
+    )}
+  </body>
+</html>

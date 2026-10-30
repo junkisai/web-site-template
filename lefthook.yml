@@ -1,0 +1,25 @@
+pre-commit:
+  # oxlint --fix と整形は同じファイルを書き換えるため、並列にせず lint → format の順で流す
+  jobs:
+    - name: lint
+      glob: '*.{js,jsx,ts,tsx,astro}'
+      run: pnpm exec oxlint --fix {staged_files}
+      stage_fixed: true
+      fail_text: リントエラーがあります
+    - name: format
+      glob: '*.{js,jsx,ts,tsx,css}'
+      run: pnpm exec oxfmt {staged_files}
+      stage_fixed: true
+      fail_text: フォーマットエラーがあります
+    # oxfmt は .astro を整形しないので、.astro だけ Prettier に任せる
+    - name: format-astro
+      glob: '*.astro'
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+      fail_text: フォーマットエラーがあります
+
+pre-push:
+  jobs:
+    - name: lint
+      run: pnpm lint
+      fail_text: lint が通っていません

@@ -1,0 +1,27 @@
+packages:
+  - 'apps/*'
+
+supportedArchitectures:
+  os:
+    - current
+    - linux
+    - darwin
+  cpu:
+    - current
+    - x64
+    - arm64
+
+saveExact: true
+progress: false
+
+# 単位は分。7 日。Renovate 側の minimumReleaseAge と揃えている
+minimumReleaseAge: 10080
+
+allowBuilds:
+  esbuild: true
+  workerd: true
+  # postinstall が Git フックを .git/hooks へ入れる。止めるとフックが有効にならない
+  lefthook: true
+  # @pandacss/dev が使う。install スクリプトは npm_config_build_from_source=true の
+  # ときだけソースからビルドするもので、普段はビルド済みのバイナリを使うので止めてよい
+  '@parcel/watcher': false

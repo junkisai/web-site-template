@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "cSpell.enabled": true,
+  "cSpell.words": ["oxfmt", "oxlint"],
+  "cSpell.allowCompoundWords": true,
+  "cSpell.ignorePaths": ["**/node_modules/**", "**/vscode-extension/**"],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

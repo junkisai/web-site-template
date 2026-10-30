@@ -1,0 +1,24 @@
+{
+  "singleQuote": true,
+  "semi": false,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "bracketSpacing": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "ignorePatterns": ["**/styled-system/**", "**/.astro/**", "**/dist/**"],
+  "sortImports": {
+    "groups": [
+      "value-builtin",
+      "value-external",
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index"],
+      ["type-parent", "type-sibling", "type-index"],
+      "type-internal",
+      "type-import",
+      "unknown"
+    ],
+    "internalPattern": ["@/", "styled-system/"],
+    "newlinesBetween": true
+  }
+}

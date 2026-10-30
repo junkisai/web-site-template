@@ -1,0 +1,24 @@
+---
+// 画面に入った [data-reveal] に data-shown を付ける。出る前の見た目と出たあとの動きは、
+// 付けられる側が css() の _motion・_shown・_inShown で書く。1 回出たら戻さない
+---
+
+<script>
+  const targets = document.querySelectorAll('[data-reveal]')
+  if ('IntersectionObserver' in window) {
+    // 画面の下から 15% の線に入ったら
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          entry.target.setAttribute('data-shown', '')
+          io.unobserve(entry.target)
+        }
+      },
+      { rootMargin: '0px 0px -15% 0px' },
+    )
+    for (const el of targets) io.observe(el)
+  } else {
+    for (const el of targets) el.setAttribute('data-shown', '')
+  }
+</script>

@@ -1,0 +1,148 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["import", "typescript", "unicorn"],
+  "categories": {
+    "correctness": "error"
+  },
+  "ignorePatterns": ["**/styled-system/**", "**/.astro/**", "**/dist/**"],
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["**/src/pages/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/scripts/**"],
+                "message": "scripts/ はビルド・運用時だけ動くコードです。src/ から import しないでください"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/src/screens/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/scripts/**"],
+                "message": "scripts/ はビルド・運用時だけ動くコードです。src/ から import しないでください"
+              },
+              {
+                "group": ["@/screens/**", "**/screens/**"],
+                "message": "画面から別の画面を import しないでください。共有したいものは features/ か共有層に上げてください。自分の画面の中は ./ で書いてください"
+              },
+              {
+                "group": ["@/pages", "@/pages/**", "**/pages/**"],
+                "message": "pages は URL の定義だけです。画面から import しないでください"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/src/features/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/scripts/**"],
+                "message": "scripts/ はビルド・運用時だけ動くコードです。src/ から import しないでください"
+              },
+              {
+                "group": ["@/features/**", "**/features/**"],
+                "message": "ドメインどうしを import しないでください。組み合わせるのは screens/ の仕事です。自分のドメインの中は ./ で書いてください"
+              },
+              {
+                "group": [
+                  "@/screens/**",
+                  "**/screens/**",
+                  "@/pages",
+                  "@/pages/**",
+                  "**/pages/**"
+                ],
+                "message": "ドメインは画面と URL を知りません。依存の向きが逆です"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "**/src/features/*/*.ts",
+        "**/src/features/*/*.tsx",
+        "**/src/features/*/*.astro"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/scripts/**"],
+                "message": "scripts/ はビルド・運用時だけ動くコードです。src/ から import しないでください"
+              },
+              {
+                "group": ["@/features/**", "**/features/**", "../**"],
+                "message": "ドメインどうしを import しないでください。ドメイン直下から ../ で出ると必ず隣のドメインか上の層に届きます。共有層は @/ で参照してください"
+              },
+              {
+                "group": [
+                  "@/screens/**",
+                  "**/screens/**",
+                  "@/pages",
+                  "@/pages/**",
+                  "**/pages/**"
+                ],
+                "message": "ドメインは画面と URL を知りません。依存の向きが逆です"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "**/src/components/**",
+        "**/src/hooks/**",
+        "**/src/utils/**",
+        "**/src/lib/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/scripts/**"],
+                "message": "scripts/ はビルド・運用時だけ動くコードです。src/ から import しないでください"
+              },
+              {
+                "group": [
+                  "@/features/**",
+                  "**/features/**",
+                  "@/screens/**",
+                  "**/screens/**",
+                  "@/pages",
+                  "@/pages/**",
+                  "**/pages/**"
+                ],
+                "message": "共有層はドメイン・画面・URL を知りません。ドメインの言葉が要るなら features/ に置くものです"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

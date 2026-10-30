@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "oxc.oxc-vscode",
+    "astro-build.astro-vscode",
+    "chakra-ui.panda-css-vscode"
+  ]
+}
