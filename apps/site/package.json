@@ -18,10 +18,10 @@
     "fmt:prettier": "prettier --write \"**/*.astro\""
   },
   "dependencies": {
-    "astro": "7.4.1"
+    "astro": "7.4.2"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.11",
+    "@astrojs/check": "0.9.12",
     "@pandacss/dev": "2.3.0",
     "@pandacss/preset-base": "2.3.0",
     "@pandacss/vite": "2.3.0",
