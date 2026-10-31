@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
-    "@pandacss/dev": "2.3.0",
-    "@pandacss/preset-base": "2.3.0",
-    "@pandacss/vite": "2.3.0",
+    "@pandacss/dev": "2.4.0",
+    "@pandacss/preset-base": "2.4.0",
+    "@pandacss/vite": "2.4.0",
     "@types/node": "24.13.3",
     "typescript": "6.0.3",
     "wrangler": "4.151.1"
