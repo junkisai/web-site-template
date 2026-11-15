@@ -1,10 +1,12 @@
 ---
 title:
 date: YYYY-MM-DD          # 書き始めた日
-status: draft             # draft | review | approved | implemented | superseded
+status: draft             # draft | review | approved | implemented | superseded（approved はユーザーの明示的な承認があったときだけ）
 author:
 pr:                       # 実装 PR（決まったら追記）
 ---
+
+<!-- superseded にしたら、ここに後継の design doc へのリンクを書く -->
 
 ## 概要
 
@@ -28,6 +30,15 @@ pr:                       # 実装 PR（決まったら追記）
 
 -
 
+## 対象の仕様
+
+<!-- この変更が関わる docs/specs/ の文書と、どう変えるか。仕様が変わらないなら「なし」と書いて表を消す。
+     ここに書くのは変更の案。specs/ 本体は、実装と同じ変更の中で直す（実装前に書き換えない） -->
+
+| 仕様 | 今 | 変更後 |
+| --- | --- | --- |
+|  |  |  |
+
 ## 設計
 
 ### 画面と URL
@@ -41,7 +52,7 @@ pr:                       # 実装 PR（決まったら追記）
 ### 置き場所
 
 <!-- 追加するまとまりと、その置き場所。
-     docs/architecture/20260819_directory-structure.md の判断フローで決める -->
+     docs/architecture/directory-structure.md の判断フローで決める -->
 
 ```text
 ```
@@ -64,6 +75,12 @@ pr:                       # 実装 PR（決まったら追記）
 | --- | --- |
 |  |  |
 
+## トレードオフ
+
+<!-- 採った案で失うもの・引き受けるリスク・後から効いてくる制約 -->
+
+-
+
 ## 影響範囲
 
 <!-- 既存の画面・データ・運用のどこが変わるか。壊れうるものを先に挙げる -->
@@ -71,6 +88,6 @@ pr:                       # 実装 PR（決まったら追記）
 ## 未決事項
 
 <!-- 決まっていないこと。決まったら本文へ移し、ここから消す。
-     全部消えた状態が approved の条件 -->
+     全部消え、ユーザーが明示的に承認した状態が approved の条件 -->
 
 - [ ]
