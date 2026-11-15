@@ -8,7 +8,7 @@
 | --- | --- | --- | --- | --- |
 | [specs/](specs/README.md) | 今、何を満たすべきか | 機能の振る舞い・制約・受け入れ条件 | Living Document。実装と同じ変更の中で直す | `<feature>.md` |
 | [architecture/](#architecture) | 今、どう組まれているか。どう書くか | 構成・置き場所・依存の向き・命名・スタイルの規約 | Living Document。構成や規約と同じ変更の中で直す | `<topic>.md` |
-| [design-docs/](design-docs/README.md) | なぜそう作ったか。どう作るか | 設計の判断・捨てた案・トレードオフ | 複数の作り方を比べて選ぶ変更の、実装前に書く。実装後は原則として凍結する | `YYYYMMDD_<topic>.md` |
+| [design-docs/](design-docs/README.md) | なぜそう作ったか。どう作るか | 設計の判断・捨てた案・トレードオフ | [書く変更](design-docs/README.md#いつ書くか)の実装前に書く。実装後は原則として凍結する | `YYYYMMDD_<topic>.md` |
 | [runbooks/](#runbooks) | どう操作するか | 開発・運用の手順 | Living Document。手順と同じ変更の中で直す | `<operation>.md` |
 | [transcripts/](transcripts/README.md) | 誰が何を話したか | 会話・ヒアリング・録音の原記録 | 原則として書き換えない | `YYYY-MM-DD-<topic>.md` |
 
