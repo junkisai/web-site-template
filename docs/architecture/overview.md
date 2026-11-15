@@ -1,6 +1,8 @@
 # 全体の構成
 
-今の構成。サイトが何を満たすべきかは [specs/](../specs/README.md)、ファイルの置き場所は [directory-structure.md](directory-structure.md)、スタイルの書き方は [styling.md](styling.md)、この構成にした理由は [design doc](../design-docs/20261031_web-site-template.md) にある。
+今の構成。テンプレート全体の目的は [product.md](../product.md)、機能ごとに何を満たすべきかは [prds/](../prds/README.md)、ファイルの置き場所は [directory-structure.md](directory-structure.md)、スタイルの書き方は [styling.md](styling.md)、この構成にした理由は [design doc](../design-docs/20261031_web-site-template.md) にある。
+
+**今使っている技術と構成の正本はこの文書。** design doc に書いた当時の構成と今が違うときは、こちらが今の構成。構成を変えたら、同じ変更の中でこの文書を直す。
 
 ## システムの形
 
@@ -42,11 +44,55 @@ pnpm workspace と Turborepo のモノレポ。
 | --- | --- | --- |
 | ページを作る | Astro。静的出力で、adapter は入れていない | `apps/site/astro.config.ts` |
 | スタイル | Panda CSS。`@pandacss/vite` が生成物（`styled-system/`）を作り、CSS を注入する | `apps/site/panda.config.ts` |
-| 書体 | Astro の Fonts API。ビルドのときに Google Fonts から取り、`dist/` から配る。切り出す字は `scripts/collect-glyphs.ts` が `src/` から集める | `astro.config.ts` の `fonts` |
+| 書体 | Astro の Fonts API。ビルドのときに Google Fonts から取り、`dist/` から配る。切り出す字は `scripts/collect-glyphs.ts` が `src/` から集める（[書体](#書体)） | `astro.config.ts` の `fonts` |
 | 配信 | Cloudflare Workers の静的アセット。`dist/` をそのまま配る | `apps/site/wrangler.jsonc` |
 | 型 | TypeScript（`astro/tsconfigs/strictest`）。`@/*` が `src/*`、`styled-system/*` が Panda の生成物を指す | `apps/site/tsconfig.json` |
 
 ブラウザに届くのは、HTML（CSS と `<script>` を含む）と書体のファイル。
+
+## 機能を支える仕組み
+
+[prds/](../prds/README.md) の要件を、今どう実現しているか。何を満たすべきかは各 PRD にあり、ここには書かない。
+
+すべてのページの `<html>`・`<head>` は `src/components/layout/base-layout.astro`（`BaseLayout`）が持つ。各ページは `src/pages/` で `BaseLayout` に props を渡し、画面を包む。下の仕組みの多くは、このファイルに集まっている。
+
+### ページのメタ情報
+
+[prds/page-metadata.md](../prds/page-metadata.md) の実現。
+
+- タイトル・説明・サイト名・OGP 画像・検索結果に載せない指定は、各ページが `BaseLayout` の props（`title`・`description`・`siteName`・`ogImage`・`noindex`）で渡す
+- 公開する URL は `astro.config.ts` の `site` に書く。テンプレートでは注釈にしてあり、入れていない。OGP の絶対 URL は、ページの中で `Astro.site` から作る。`site` が無いうちは、`og:url`・`og:image` 系・`twitter:card` を出さない
+- OGP 画像は `public/` に置き、そのパス・幅・高さ・代替テキストを `ogImage` に渡す（[directory-structure.md の「静的ファイルの置き場所」](directory-structure.md#静的ファイルの置き場所)）
+- favicon を置くまでは、`<link rel="icon" href="data:," />` でブラウザに `/favicon.ico` を取りに行かせない
+- ページの言語は `<html lang="ja">` と `og:locale` で出す
+
+### 書体
+
+[prds/web-font.md](../prds/web-font.md) の実現。
+
+- `astro.config.ts` の `fonts` で、Google Fonts（`fontProviders.google()`）の Noto Sans JP を、太さ `500 800` の 1 ファイルとして取る。代わりの書体は同じ設定の `fallbacks` に書く
+- 切り出す字は `scripts/collect-glyphs.ts` が集め、`options.experimental.glyphs` に渡す。`src/` の `.astro` と `.ts` を読み、注釈（`<!-- -->`・`/* */`・`//`）を除いた字と、ASCII の印字できる字を集める。`astro.config.ts` を読み込むときに 1 回だけ動くので、開発サーバーは立ち上げたときの字で切り出す
+- `base-layout.astro` の `<Font cssVariable="--font-ja" />` が `<head>` で読み込む。`panda.config.ts` の `fonts.ja` トークンは `var(--font-ja)` を指す
+
+### 動き
+
+[prds/motion.md](../prds/motion.md) の実現と書き方は、[styling.md の「動き」](styling.md#動き)にある。
+
+### アクセス解析
+
+[prds/web-analytics.md](../prds/web-analytics.md) の実現。
+
+- Cloudflare Web Analytics のビーコン（`https://static.cloudflareinsights.com/beacon.min.js`）を、`base-layout.astro` の `<body>` の末尾に `defer` で書く。サイトのトークンは同じファイルの定数 `webAnalyticsToken` に書き、`data-cf-beacon` で渡す。定数が空なら、ビーコンを出さない
+- Cloudflare の自動の設定には任せず、サイトの側でビーコンを書く。理由は [design doc の「アクセス解析と検索」](../design-docs/20261031_web-site-template.md#アクセス解析と検索)にある
+- トークンを環境変数にしない理由は、[構成上の制約](#構成上の制約)にある
+
+### 画面幅
+
+- スマホと PC の切り替えは、`panda.config.ts` の `theme.breakpoints`（`pc: '900px'`）の 1 つだけ。書き方は [styling.md](styling.md)
+
+### 存在しない URL
+
+- `wrangler.jsonc` の `assets.not_found_handling` は `"404-page"`（`404.html` を返す設定）。ただし `src/pages/404.astro` は無く、ビルドの出力にも `404.html` は無い。何を返すべきかは [prds/site.md の「未確認事項」](../prds/site.md#未確認事項)にある
 
 ## 開発の道具
 
@@ -71,7 +117,7 @@ pnpm workspace と Turborepo のモノレポ。
 最初の 2 つは、テンプレートから引き継いだ既定の方針。**ユーザーが明示的に求めれば見直してよい。** 見直すときは、今の構成を保つ案と変える案を比べ、design doc に書いて決める。それ以外は、道具や運用の都合による今の制約。
 
 - **静的出力を基本にする。** 今は、リクエストごとのサーバーの処理を持たない。フォームの送信・ログイン・DB のようにサーバーの処理が要るようになったら、今の構成を保つ案（外部のサービスに任せる、`apps/` に別アプリを足す）と、構成を変える案（Astro の Cloudflare adapter を入れ、サイトにサーバーの処理を持たせる）を比べる
-- **UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** React などの UI フレームワークは入れていない。JS は `<script>` を書いたところにだけ出る。今ブラウザで動く JS は、動き（出すかの判定と、画面に入った要素を出す処理）と、トークンを入れたときのアクセス解析のビーコンだけ（[specs/site.md](../specs/site.md#ブラウザで動く-js)）
+- **UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** React などの UI フレームワークは入れていない。JS は `<script>` を書いたところにだけ出る。今ブラウザで動く JS は、動き（出すかの判定と、画面に入った要素を出す処理）と、トークンを入れたときのアクセス解析のビーコンだけ（要件は [prds/site.md](../prds/site.md#ブラウザで動く-js)）
 - **TypeScript は 6 系に据え置く。** `.astro` の型を検査する `astro check` が TypeScript 7 で動かないため（[withastro/astro#17268](https://github.com/withastro/astro/issues/17268)）
 - **`styled-system/` はコミットしない。** `pnpm install`（`apps/site` の `prepare`）と `pnpm lint`（turbo の `gen`）の前に作り直す
 - **依存は、公開から 7 日経った版だけを入れる。** pnpm（`minimumReleaseAge`）と Renovate の両方で設定していて、2 つの長さは揃える（[runbooks/minimum-release-age.md](../runbooks/minimum-release-age.md)）

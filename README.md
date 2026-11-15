@@ -27,13 +27,14 @@
 
 | 知りたいこと | 置き場所 |
 | --- | --- |
-| 今の仕様（何を満たすべきか） | [docs/specs/](./docs/specs/README.md) |
-| 今の構成と開発の規約（置き場所・依存の向き・命名・スタイル） | [docs/architecture/](./docs/README.md#architecture) |
+| このテンプレートの目的・対象・提供価値・成功条件 | [docs/product.md](./docs/product.md) |
+| 機能ごとの目的・要件・今の振る舞い（何を満たすべきか） | [docs/prds/](./docs/prds/README.md) |
+| 今の構成と開発の規約（使っている技術・置き場所・依存の向き・命名・スタイル） | [docs/architecture/](./docs/README.md#architecture) |
 | この構成にした理由・検討して捨てた案 | [docs/design-docs/](./docs/design-docs/README.md) |
 | 開発・デプロイの手順 | [docs/runbooks/](./docs/README.md#runbooks) |
 | 会話・録音の記録 | [docs/transcripts/](./docs/transcripts/README.md) |
 
-規約の要約とエージェント向けの作業の進め方は [AGENTS.md](./AGENTS.md) にあり、`CLAUDE.md` はそのシンボリックリンクです。編集するのは `AGENTS.md` の側です。複数の作り方を比べて選ぶ変更や、構成・セキュリティ・データの扱いに大きく影響する変更は、実装の前に design doc を書き、承認を得てから実装します（基準は [docs/design-docs/README.md](./docs/design-docs/README.md#いつ書くか)）。静的なページの追加やテキスト・画像の差し替えなら、specs を直すだけです。
+規約の要約とエージェント向けの作業の進め方は [AGENTS.md](./AGENTS.md) にあり、`CLAUDE.md` はそのシンボリックリンクです。編集するのは `AGENTS.md` の側です。複数の作り方を比べて選ぶ変更や、構成・セキュリティ・データの扱いに大きく影響する変更は、実装の前に design doc を書き、承認を得てから実装します（基準は [docs/design-docs/README.md](./docs/design-docs/README.md#いつ書くか)）。静的なページの追加やテキスト・画像の差し替えなら design doc は要らず、要件や振る舞いが変わる分だけ PRD を直します。
 
 ## テンプレートから作ったら
 

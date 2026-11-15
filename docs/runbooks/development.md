@@ -39,8 +39,8 @@ pnpm dev     # http://localhost:3000
 `apps/site` だけを起動するときは `pnpm -F site dev`。
 
 - `apps/site/panda.config.ts` を変えたあと、型が古いままのときは `pnpm gen` で Panda の生成物を作り直す。`pnpm lint` は先に `gen` を流すので、lint では気にしなくてよい
-- **新しい字を書いたら、開発サーバーを立ち上げ直す。** 書体は、立ち上げたときにソースにあった字だけで切り出すため（[specs/web-font.md](../specs/web-font.md)）
-- 動きを止めた状態で見るときは、URL に `?still` か `#still` を付ける（[specs/motion.md](../specs/motion.md)）
+- **新しい字を書いたら、開発サーバーを立ち上げ直す。** 書体は、立ち上げたときにソースにあった字だけで切り出すため（[prds/web-font.md](../prds/web-font.md)）
+- 動きを止めた状態で見るときは、URL に `?still` か `#still` を付ける（[prds/motion.md](../prds/motion.md)）
 
 ## ビルドして確かめる
 

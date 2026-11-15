@@ -5,8 +5,8 @@
 ## 扱い
 
 - **原則として書き換えない。** 録音のメタ情報（frontmatter）・発言の内容・生文字起こしは、残した時点のまま保つ。要約とネクストアクションの誤りに気づいたら直してよいが、話された内容を後から変えない
-- **決まったことの正本ではない。** 会話で決まった仕様・構成・手順は、[specs](../specs/README.md)・[architecture](../README.md#architecture)・[runbooks](../README.md#runbooks) に、判断の経緯は [design doc](../design-docs/README.md) に書いて初めて有効になる。transcript は、その根拠として design doc などからリンクする
-- 古い会話で話したことと今の specs が違うときは、今の specs が今の仕様
+- **決まったことの正本ではない。** 会話で決まったプロダクトの目的は [product.md](../product.md) に、機能の要件は [prds](../prds/README.md) に、構成は [architecture](../README.md#architecture) に、手順は [runbooks](../README.md#runbooks) に、判断の経緯は [design doc](../design-docs/README.md) に書いて初めて有効になる。transcript は、その根拠として design doc などからリンクする
+- 古い会話で話したことと今の product.md・PRD が違うときは、今の product.md・PRD が今の目的と要件
 
 ## 命名規則
 

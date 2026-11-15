@@ -6,9 +6,11 @@ author:
 pr:
 ---
 
-> **この文書は 2026-10-31 時点の設計の記録で、今の仕様の正本ではない。** 今の仕様は [specs/](../specs/README.md)、今の構成と規約は [architecture/overview.md](../architecture/overview.md)、手順は [runbooks/](../README.md#runbooks) にある。ここに書いた判断と違う変更をしてもよい。そのときは、必要に応じて新しい design doc を書く。
+> **この文書は 2026-10-31 時点の設計の記録で、今の仕様の正本ではない。** 今の仕様は [prds/](../prds/README.md)、今の構成と規約は [architecture/overview.md](../architecture/overview.md)、手順は [runbooks/](../README.md#runbooks) にある。ここに書いた判断と違う変更をしてもよい。そのときは、必要に応じて新しい design doc を書く。
 >
 > **記録について。** 2026-11-15 のドキュメント体系の移行（[20261115_docs-system.md](20261115_docs-system.md)）で、この文書にあった仕様・規約・手順をそれぞれの文書に移し、設計の記録として組み直した。判断と理由は書き換えていない。組み直す前の版は `git show aaa2cbb:docs/design-docs/20261031_web-site-template.md` で読める。実装は最初のコミット `aaa2cbb` に入っていて、実装 PR は無い。`author` と `pr` は元の文書でも空欄だった。
+>
+> **2026-11-15 の追記（2 回目の移行）。** `docs/specs/` を `docs/prds/` に移した。この文書にある specs へのリンクは、移した先の PRD に張り替えた。本文の「specs」「対象の仕様」は移す前の名前で、旧パスはコードの表記で残し、今の場所へのリンクを添えた。
 
 ## 概要
 
@@ -35,7 +37,7 @@ LP・キャンペーンページ・会社や個人のサイトのような、**�
 - [x] `.astro` を整形でき、pre-commit で整形と lint が `.astro` にもかかる
 - [x] README・AGENTS.md・[architecture](../architecture/directory-structure.md) が構成と規約を説明している
 
-このうち今も守っている条件は、[specs/site.md](../specs/site.md)・[specs/web-font.md](../specs/web-font.md) の受け入れ条件と、[architecture/overview.md](../architecture/overview.md)・[architecture/styling.md](../architecture/styling.md) の制約に移した。
+このうち今も守っている条件は、`specs/site.md`・`specs/web-font.md`（今の [prds/site.md](../prds/site.md)・[prds/web-font.md](../prds/web-font.md)）の受け入れ条件と、[architecture/overview.md](../architecture/overview.md)・[architecture/styling.md](../architecture/styling.md) の制約に移した。
 
 ## やらないこと
 
@@ -54,11 +56,11 @@ LP・キャンペーンページ・会社や個人のサイトのような、**�
 
 当時は specs が無かった。この設計で決めた振る舞いのうち今も有効なものは、2026-11-15 の移行で次の specs に書き出した。
 
-- [specs/site.md](../specs/site.md) — 範囲・ページ・画面幅・ブラウザで動く JS
-- [specs/page-metadata.md](../specs/page-metadata.md) — OGP・検索に出さない指定
-- [specs/motion.md](../specs/motion.md) — 画面に入ったら出す動き
-- [specs/web-font.md](../specs/web-font.md) — 使う字だけを切り出す書体
-- [specs/web-analytics.md](../specs/web-analytics.md) — アクセス解析の受け口
+- `specs/site.md`（今の [prds/site.md](../prds/site.md)） — 範囲・ページ・画面幅・ブラウザで動く JS
+- `specs/page-metadata.md`（今の [prds/page-metadata.md](../prds/page-metadata.md)） — OGP・検索に出さない指定
+- `specs/motion.md`（今の [prds/motion.md](../prds/motion.md)） — 画面に入ったら出す動き
+- `specs/web-font.md`（今の [prds/web-font.md](../prds/web-font.md)） — 使う字だけを切り出す書体
+- `specs/web-analytics.md`（今の [prds/web-analytics.md](../prds/web-analytics.md)） — アクセス解析の受け口
 
 ## 設計
 
