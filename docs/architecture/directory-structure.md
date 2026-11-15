@@ -1,8 +1,12 @@
 # ディレクトリ構成
 
-`apps/site` の置き場所の規約。**新しいファイルを作る前にここを読み、[置き場所の判断フロー](#置き場所の判断フロー)で置き場所を決める。**
+`apps/site` の今の置き場所の規約。**新しいファイルを作る前にここを読み、[置き場所の判断フロー](#置き場所の判断フロー)で置き場所を決める。**
 
-`apps/site` は Astro の静的出力で作る Web サイト。スタイルは Panda CSS で書く（[スタイルの書き方](#スタイルの書き方)）。
+`apps/site` は Astro の静的出力で作る Web サイト。全体の構成は [overview.md](overview.md)、スタイルの書き方は [styling.md](styling.md) にある。
+
+依存の向きの大半は `.oxlintrc.json` で守らせている（[lint で強制している](#lint-で強制している)）。**規約を変えるときは、この文書と `.oxlintrc.json` を同じ変更の中で直す。**
+
+この文書に出てくる `faq/`・`hero/`・`news/` などは説明のための例。今のテンプレートにあるファイルは、[全体像](#全体像)に挙げたものだけ。
 
 ## 考え方
 
@@ -75,7 +79,7 @@ apps/site/
 ├─ wrangler.jsonc          Cloudflare Workers の配信設定
 ├─ styled-system/          panda codegen が生成。コミットしない。手で触らない
 ├─ scripts/                ビルド・運用時だけ動くコード。ブラウザに載らない
-├─ public/                 そのまま配信される静的ファイル
+├─ public/                 そのまま配信される静的ファイル（まだ無い）
 └─ src/
    ├─ pages/               URL の定義だけ。画面の実体は置かない
    ├─ screens/             画面の実体。1 画面 1 ディレクトリ
@@ -88,12 +92,28 @@ apps/site/
    ├─ components/          ドメインを知らない共有部品
    │  ├─ ui/               単体で完結する UI 部品
    │  └─ layout/           サイト共通の枠（<html>・<head>）
-   ├─ utils/               ドメインを知らない純粋関数
-   ├─ lib/                 外部ライブラリをこのアプリ用に設定したもの
+   ├─ utils/               ドメインを知らない純粋関数（まだ無い）
+   ├─ lib/                 外部ライブラリをこのアプリ用に設定したもの（まだ無い）
    └─ styles/              @layer の順番と reset
 ```
 
-たとえばトップページなら、こうなる。
+今あるのは次のファイルだけ。
+
+```text
+apps/site/
+├─ astro.config.ts
+├─ panda.config.ts
+├─ wrangler.jsonc
+├─ scripts/collect-glyphs.ts               src の .astro と .ts に書いた字を集める（書体の切り出しに使う）
+└─ src/
+   ├─ pages/index.astro                    / の URL と <head> に入れる値
+   ├─ screens/top/index.astro              仮のトップページ
+   ├─ components/layout/base-layout.astro  <html>・<head>
+   ├─ components/ui/reveal-on-scroll.astro 画面に入った [data-reveal] に data-shown を付ける
+   └─ styles/globals.css                   @layer の順番と reset
+```
+
+たとえばトップページに中身を作ると、こうなる（例）。
 
 ```text
 src/screens/top/
@@ -175,7 +195,7 @@ URL を定義するディレクトリの名前は、Astro が `pages/` と決め
 
 ## 置き場所の判断フロー
 
-新しいファイルを作るとき、上から順に当てはめる。かけるのはソースコードだけで、画像などの静的ファイルはこの流れに乗せない（[静的ファイルの置き場所](#静的ファイルの置き場所)）。
+新しいファイルを作るとき、上から順に当てはめる。かけるのはソースコードだけで、画像などの静的ファイルはこの流れに乗せない（[静的ファイルの置き場所](#静的ファイルの置き場所)）。design doc の「置き場所」の節も、この流れで決める。
 
 1. **ビルド時・運用時にしか動かないか**（Vite plugin、生成スクリプト、Node API を使う）→ `scripts/`
 2. **URL を増やす／変えるか** → `src/pages/`
@@ -217,33 +237,6 @@ src/screens/top/components/hero/
 ```
 
 **これは「まとまりだから隣に置く」のではない。** import するかぎり置き場所は出力に影響しないので、いちばん近いところに置いている。結果としてまとまりごと動かせる。
-
-## スタイルの書き方
-
-スタイルは Panda CSS の `css()` で書く。設定は `apps/site/panda.config.ts` にある。
-
-```astro
----
-import { css } from 'styled-system/css'
----
-
-<h1 class={css({ fontSize: '1.875rem', color: 'accentText' })}>見出し</h1>
-```
-
-- **`.astro` の `<style>` は使わない。** 書き方を `css()` の 1 つにするため。lint では止められないので、レビューで見る
-- **色とフォントはトークンで書く。** `strictTokens` が入っていて、`'red'`・`'#fff'`・`oklch(...)` のような直書きは `astro check` の型エラーになる。新しい色が要るときは、`panda.config.ts` の `theme.tokens.colors` に足す
-- **余白と文字サイズはトークンにしない。** `padding`・`gap`・`fontSize` は `'1.5rem'` のようにそのまま書ける
-- **決まった値しか型が通らないプロパティは、それ以外の値を `[...]` で囲む。** 幅と高さ（`width`・`maxWidth`・`minHeight` など）、`margin` 系、`inset`、`transition`、`translate`・`scale`・`rotate`、`filter` がそれ。`'[48rem]'`・`'[8px]'`・`'[0 28px]'` のように囲む（Panda のエスケープハッチ）
-- **繰り返し出てくる見た目は `panda.config.ts` に持つ。** 字の段は `textStyles`（`heading`・`body`・`note`。スマホと PC で大きさが変わる）、灰色の箱は `layerStyle: 'panel'`、段組みの箱（最大 720px。本文の 1 行が 680px を超えない）は `styled-system/patterns` の `inner()`。画面幅の切り替えは `pc`（900px）の 1 つだけ
-- **動きは `_motion` の中に書く。** `<html>` に `data-motion` があるとき（視差効果を減らす設定でなく、URL に `#still` が無いとき）だけ当たる。「出る前に隠す」スタイルもここに書くので、JS が動かなければ最初から全部見える。画面に入ったあとの見た目は `_shown`（自分）・`_inShown`（画面に入った箱の中）で書き、要素に `data-reveal` を付ける
-- **部品に呼ぶ側からスタイルを渡さない。** 渡したスタイルは静的に読めず、Panda が警告を出す。違いは `tone="lemon"` のような選択肢の引数か、呼ぶ側の包む要素で表す
-- **存在しないプロパティと値も型エラーになる**（`strictPropertyValues`）
-- **`css()` はビルド時に評価される。** `.astro` の frontmatter とテンプレートで呼ぶかぎり、Panda のランタイムはブラウザに届かない。ブラウザで動く `<script>` の中では `css()` を呼ばない。状態でスタイルを変えたいときは、クラスを切り替えるのではなく `data-*` 属性と `css()` の条件（`_open` など）で書く
-- **`html`・`body` の色とフォントは `panda.config.ts` の `globalCss` で当てる。** `src/styles/globals.css` には `@layer` の順番と reset だけを置く
-
-**reset は必ず `@layer reset` の中に書く。** Panda は生成した CSS を `@layer` の中に出し、ブラウザは `@layer` の外の CSS を中の CSS より常に優先する。外に書くと、reset の `a { color: inherit }` などが Panda のスタイルに勝つ。
-
-**`styled-system/` は `panda codegen` の生成物で、コミットしない。** `pnpm install`（`prepare`）と `pnpm lint`（turbo の `gen`）の前に作り直される。`panda.config.ts` を変えたあと型が古いときは `pnpm gen` を流す。
 
 ## 各ディレクトリの責務
 
@@ -361,6 +354,8 @@ flowchart LR
 ## テストの置き場所
 
 対象実装と同じディレクトリの `__tests__/` 配下に置く。画面やドメインのディレクトリを移動するときは、テストも一緒に動く。
+
+今はテストランナーが入っておらず、テストも無い。入れるときは、この置き場所に従う。
 
 ## 入口が増えたとき
 

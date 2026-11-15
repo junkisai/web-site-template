@@ -6,6 +6,10 @@ author:
 pr:
 ---
 
+> **この文書は 2026-10-31 時点の設計の記録で、今の仕様の正本ではない。** 今の仕様は [specs/](../specs/README.md)、今の構成と規約は [architecture/overview.md](../architecture/overview.md)、手順は [runbooks/](../README.md#runbooks) にある。ここに書いた判断と違う変更をしてもよい。そのときは、必要に応じて新しい design doc を書く。
+>
+> **記録について。** 2026-11-15 のドキュメント体系の移行（[20261115_docs-system.md](20261115_docs-system.md)）で、この文書にあった仕様・規約・手順をそれぞれの文書に移し、設計の記録として組み直した。判断と理由は書き換えていない。組み直す前の版は `git show aaa2cbb:docs/design-docs/20261031_web-site-template.md` で読める。実装は最初のコミット `aaa2cbb` に入っていて、実装 PR は無い。`author` と `pr` は元の文書でも空欄だった。
+
 ## 概要
 
 LP・キャンペーンページ・会社や個人のサイトのような、**ログインも DB も無い Web サイト**を始めるためのテンプレート。Astro の静的出力でページを作り、スタイルは Panda CSS で書き、Cloudflare Workers の静的アセットとして配る。ブラウザに JS を送らない構成と、置き場所・依存の向き・命名の規約を、最初から lint で守らせる。
@@ -20,6 +24,8 @@ LP・キャンペーンページ・会社や個人のサイトのような、**�
 
 ## ゴール
 
+当時の完了条件。
+
 - [x] clone して `pnpm install` → `pnpm lint`（`astro check`・oxlint・knip）が通る。`styled-system/` はコミットせず、install のときに生成される
 - [x] `pnpm -F site build` で `apps/site/dist/` に HTML・CSS・書体が出る。JS のファイルは出ず、`<script>` は書いたところ（inline）にしかない
 - [x] 出力された CSS に、Panda の既定のプリセット（`preset-panda`）のトークンと reset が入っていない
@@ -27,7 +33,9 @@ LP・キャンペーンページ・会社や個人のサイトのような、**�
 - [x] `pnpm -F site exec wrangler deploy --dry-run` が通る
 - [x] 規約を破ると lint が落ちる（画面から別の画面を import する・`css()` にトークン以外の色を書く）
 - [x] `.astro` を整形でき、pre-commit で整形と lint が `.astro` にもかかる
-- [x] README・AGENTS.md・[architecture](../architecture/20260819_directory-structure.md) が構成と規約を説明している
+- [x] README・AGENTS.md・[architecture](../architecture/directory-structure.md) が構成と規約を説明している
+
+このうち今も守っている条件は、[specs/site.md](../specs/site.md)・[specs/web-font.md](../specs/web-font.md) の受け入れ条件と、[architecture/overview.md](../architecture/overview.md)・[architecture/styling.md](../architecture/styling.md) の制約に移した。
 
 ## やらないこと
 
@@ -42,6 +50,16 @@ LP・キャンペーンページ・会社や個人のサイトのような、**�
 
 - **ログイン・DB・管理画面。** 要るなら web-app-template から作る。サイトに 2 つ目の入口が要るときは、`apps/` に別アプリとして足し、サイトは静的出力のまま保つ
 
+## 対象の仕様
+
+当時は specs が無かった。この設計で決めた振る舞いのうち今も有効なものは、2026-11-15 の移行で次の specs に書き出した。
+
+- [specs/site.md](../specs/site.md) — 範囲・ページ・画面幅・ブラウザで動く JS
+- [specs/page-metadata.md](../specs/page-metadata.md) — OGP・検索に出さない指定
+- [specs/motion.md](../specs/motion.md) — 画面に入ったら出す動き
+- [specs/web-font.md](../specs/web-font.md) — 使う字だけを切り出す書体
+- [specs/web-analytics.md](../specs/web-analytics.md) — アクセス解析の受け口
+
 ## 設計
 
 ### 画面と URL
@@ -51,6 +69,8 @@ LP・キャンペーンページ・会社や個人のサイトのような、**�
 | `/` | `screens/top` | 仮のトップページ。テンプレートから作ったら置き換える |
 
 ### 置き場所
+
+当時の構成。今の構成は [architecture/directory-structure.md](../architecture/directory-structure.md#全体像) にある。
 
 ```text
 apps/site/
@@ -68,9 +88,11 @@ apps/site/
    └─ styles/globals.css    @layer の順番と reset
 ```
 
-置き場所・依存の向き・命名の規約は [architecture/20260819_directory-structure.md](../architecture/20260819_directory-structure.md) にあり、依存の向きは `.oxlintrc.json` の `no-restricted-imports` で落ちる。
+置き場所・依存の向き・命名の規約は architecture に書き、依存の向きは `.oxlintrc.json` の `no-restricted-imports` で落ちるようにした。
 
 ### スタイル
+
+今のスタイルの規約は [architecture/styling.md](../architecture/styling.md) にある。
 
 - **Panda CSS の `css()` で書く。** `strictTokens` で色と書体はトークン以外を書けなくし、`strictPropertyValues` で値も型で検査する（`astro check` で落ちる）
 - **既定のプリセットと reset を外す。** 使っていないトークンまで CSS 変数として出るのを止める。reset は `globals.css` の `@layer reset` に、頼っているものだけを置く
@@ -91,14 +113,7 @@ JS は `<script>` を書いたところにしか出ない。テンプレート�
 
 ### テンプレートから作ったら最初に変えるところ
 
-| ファイル | 変えるもの |
-| --- | --- |
-| `apps/site/wrangler.jsonc` | `name`（Worker の名前）。アカウントが複数なら `account_id`、独自ドメインなら `routes` |
-| `apps/site/astro.config.ts` | `site`（公開する URL） |
-| `apps/site/panda.config.ts` | 配色と字の段 |
-| `apps/site/src/components/layout/base-layout.astro` | Web Analytics のトークン（使うなら） |
-| `apps/site/src/pages/`・`src/screens/` | 仮のトップページ |
-| `README.md`・`docs/design-docs/README.md` | リポジトリの名前と説明、design doc の一覧 |
+テンプレートから作ったときに変えるファイル（Worker の名前・公開する URL・配色と字の段・Web Analytics のトークン・仮のトップページ・README と design doc の一覧）を決め、README とこの文書に表で載せた。今の手順は [runbooks/start-from-template.md](../runbooks/start-from-template.md) にある。
 
 ## 検討した他の案
 
@@ -109,6 +124,15 @@ JS は `<script>` を書いたところにしか出ない。テンプレート�
 | StyleX（web-app-template と同じ） | Panda CSS には Astro 用の Vite plugin と導入手順が公式にあり、`strictTokens` で色と書体をトークン以外書けなくでき、StyleX より一段狭く縛れる |
 | Cloudflare Pages で配る | 新しく作るなら Workers の静的アセットが推奨。PR のプレビューも Workers の `previews` で出せる |
 | Web フォントを Google Fonts の `<link>` で読む | 字の範囲ごとのファイルと、外のドメインへの接続が増える。Fonts API なら、ビルド時に取ってきて自分のドメインから配れる |
+
+## トレードオフ
+
+元の文書にはこの節が無かった。同じコミット（`aaa2cbb`）のコードの注釈と README に書かれていたことのうち、この設計の引き換えにあたるものを、2026-11-15 の移行でここに集めた。新しい判断は足していない。
+
+- **書体に入るのは、ソースに書いた字だけ。** CMS などから取る字は Noto Sans JP で出ず、その字だけ次の書体（`fallbacks`）になる。当時の LP は字がすべてソースにあったので、これで足りるとした（`scripts/collect-glyphs.ts` の注釈）
+- **新しい字を書くと、開発サーバーを立ち上げ直すまで書体に入らない**（当時の README）
+- **公開する URL（`site`）を入れるまで、`og:url` と `og:image` を出さない。** OGP の URL を絶対 URL にするため（`astro.config.ts`・`base-layout.astro` の注釈）
+- **Web Analytics を自動の設定に任せないので、トークンを手で入れるまでページビューは数えられない**（`base-layout.astro` の注釈）
 
 ## 影響範囲
 

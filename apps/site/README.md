@@ -1,6 +1,6 @@
 # site
 
-ディレクトリ構成と置き場所の規約は [docs/architecture/20260819_directory-structure.md](../../docs/architecture/20260819_directory-structure.md) にある。**新しいファイルを作る前に読む。**
+ディレクトリ構成と置き場所の規約は [docs/architecture/directory-structure.md](../../docs/architecture/directory-structure.md)、スタイルの書き方は [docs/architecture/styling.md](../../docs/architecture/styling.md) にある。**新しいファイルを作る前に読む。** サイトの仕様は [docs/specs/](../../docs/specs/README.md) にある。
 
 ## 構成の要点
 
