@@ -44,7 +44,15 @@ import { css } from 'styled-system/css'
 
 ## 動き
 
-動きを出すかどうかの条件は [specs/motion.md](../specs/motion.md) にある。条件を満たすと、`<html>` に `data-motion` が付く。
+動きを出す条件と、出すとき・出さないときの振る舞いは [prds/motion.md](../prds/motion.md) にある。ここには、それを今どう実現しているかと、書き方を書く。
+
+### 仕組み
+
+- **動きを出すかは、`components/layout/base-layout.astro` の `<head>` にある inline の `<script>` が、ページを開いたときに 1 度だけ決める。** `prefers-reduced-motion: no-preference` に当たり、URL に `#still` も `?still`・`&still` も無ければ、`<html>` に `data-motion` を付ける。JS が動かなければ付かない
+- **画面に入ったかは、`RevealOnScroll`（`components/ui/reveal-on-scroll.astro`）が IntersectionObserver で見る。** `rootMargin` で画面の下 15% を除いた範囲に `[data-reveal]` が入ったら `data-shown` を付け、その要素の監視を外す。IntersectionObserver が無いブラウザでは、すべての `[data-reveal]` にすぐ `data-shown` を付ける
+- `panda.config.ts` の `conditions` に、`motion`（`:root[data-motion] &`）・`shown`（`&[data-shown]`）・`inShown`（`[data-shown] &`）を足してある。ページの中のリンクの滑らかなスクロールは、`globalCss` の `html[data-motion]` で当てる
+
+### 書き方
 
 - **動きは `_motion` の中に書く。** `_motion` は `<html>` に `data-motion` があるときだけ当たる。**「出る前に隠す」スタイルもここに書く。** こうすると、動きを出さないときは最初から全部見える
 - **画面に入ったあとの見た目は `_shown`（自分）・`_inShown`（画面に入った箱の中）で書き、要素に `data-reveal` を付ける**

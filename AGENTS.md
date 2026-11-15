@@ -6,28 +6,34 @@
 
 | 知りたいこと | 正本 | 扱い |
 | --- | --- | --- |
-| 今の機能・振る舞い・制約 | [docs/specs/](docs/specs/README.md) | 変えてよい。実装と同じ変更の中で直す |
-| 今の構成・開発規約 | [docs/architecture/](docs/README.md#architecture) | 変えてよい。構成や規約と同じ変更の中で直す |
-| 過去の設計判断・その理由・捨てた案 | [docs/design-docs/](docs/design-docs/README.md) | 書いた時点の記録。**今の仕様の正本ではなく、変更を断る根拠にもしない** |
+| プロダクト全体の目的・対象・提供価値・成功条件 | [docs/product.md](docs/product.md) | 変えてよい。目的や方向が変わったら、その変更の中で直す |
+| 機能ごとの目的・要件・今の振る舞い | [docs/prds/](docs/prds/README.md) | 変えてよい。実装と同じ変更の中で直す |
+| 今の技術構成・開発規約・技術上の制約 | [docs/architecture/](docs/README.md#architecture) | 変えてよい。構成や規約と同じ変更の中で直す |
+| 過去の設計判断・その理由・捨てた案 | [docs/design-docs/](docs/design-docs/README.md) | 書いた時点の記録。**今の要件や構成の正本ではなく、変更を断る根拠にもしない** |
 | 操作・運用の手順 | [docs/runbooks/](docs/README.md#runbooks) | 手順と同じ変更の中で直す |
-| 会話・録音の記録 | [docs/transcripts/](docs/transcripts/README.md) | 書き換えない。決まったことは specs などに書いて初めて有効 |
+| 会話・録音の記録 | [docs/transcripts/](docs/transcripts/README.md) | 書き換えない。決まったことは product.md・prds などに書いて初めて有効 |
 
-- **仕様が変わったら、spec を増やさずに今のファイルを書き直す。** 1 つの機能に spec は 1 つ。増えるのは design doc のほう（[docs/specs/README.md](docs/specs/README.md#ファイル名)）
-- **specs に書いていない振る舞いは、コードにあるからといって意図された仕様と決めつけない。** 意図がわからず、それで作業の判断が変わるなら、ユーザーに確かめる
+- **要件や振る舞いが変わったら、PRD を増やさずに今のファイルを書き直す。** 1 つの機能に PRD は 1 つ。増えるのは design doc のほう（[docs/prds/README.md](docs/prds/README.md#ファイル名)）
+- **PRD には要件を、architecture には実現方法を書く。** 使っている技術・設定・置き場所は architecture に書き、PRD には利用者や外部のシステムから見た振る舞いと、守るべき要件（セキュリティ・プライバシー・データの扱いを含む）を書く
+- **今の技術構成を、過去の design doc だけに書いた状態にしない。** design doc は当時の How、architecture が今の How
+- **PRD に書いていない振る舞いは、コードにあるからといって意図された要件と決めつけない。** 意図がわからず、それで作業の判断が変わるなら、ユーザーに確かめる
+- **PRD の背景・課題・ゴールに、根拠のない目的・課題・測定指標を書かない。** わからないものは「未確認事項」に書く
 - **ユーザーが変更を明示的に指示していて、ほかに判断することがないなら、過去の実装の意図を確かめるためだけに作業を止めない。** 指示どおりに進め、気づいた食い違いは報告に書く
-- **Living Document（specs・architecture・runbooks）どうしや、それらとコードが食い違ったら、どちらかに黙って寄せない。** 食い違いを伝え、どちらが意図かを確かめてから直す
+- **Living Document（product.md・prds・architecture・runbooks）どうしや、それらとコードが食い違ったら、どちらかに黙って寄せない。** 食い違いを伝え、どちらが意図かを確かめてから直す
 - このファイルの規約の節は architecture の要約。食い違ったら architecture を正とし、このファイルを直す
 
 ## 変更の進め方
 
+**過去の design doc、今の PRD、architecture の既定の方針は、ユーザーの新しい要求で変えたり見直したりしてよい。** ただし、安全性や技術的な制約を無視してよいという意味ではない（下の 3）。
+
 1. **頼まれた変更を、新しい検討の起点にする。** 過去の design doc に違う判断や「この先もやらない」が書いてあっても、それを理由に断らない。過去の判断は、捨てた理由が今も当てはまるかを確かめる材料として読む
-2. **今の specs・architecture との違いを確かめる。** 何が変わるか、影響範囲はどこまでかを書き出す
+2. **関連する PRD と architecture を読み、今との違いを確かめる。** プロダクト全体の目的・提供価値・方向に関わる変更なら、[docs/product.md](docs/product.md) も読む。何が変わるか、影響範囲はどこまでかを書き出す
 3. **既存の制約とぶつかるなら、影響・リスク・取りうる案を示して判断を仰ぐ。** 安全性や技術的な制約（lint で守らせている規約、TypeScript の版など）を黙って無視しない。制約を理由に黙って断ることもしない
 4. **テンプレートから引き継いだ方針（静的出力を基本にする・ログインや DB を持たない・JS を必要な機能に限る など）は、ユーザーが明示的に求めれば見直してよい。** 既定の方針として守るが、変更を断る理由にはしない。見直すときは、今の構成を保つ案と変える案を比べて design doc に書く（[docs/architecture/overview.md](docs/architecture/overview.md#構成上の制約)）
-5. **複数の作り方を比べて選ぶ変更や、システムの構成・セキュリティ・データの扱いに大きく影響する変更なら、実装の前に新しい design doc を書く。** 作り方が 1 つしかなくても、重要な変更は記録を残す。CMS・新しいデータの流れ・認証・外部サービスとの連携・サーバーの処理・基盤や規約の変更がそれにあたる（基準は [docs/design-docs/README.md](docs/design-docs/README.md#いつ書くか)）。静的なページやセクションの追加・通常の UI の変更・テキストや画像の差し替え・スタイル調整・リファクタリング・通常のバグ修正には要らず、specs などを直せばよい
+5. **複数の作り方を比べて選ぶ変更や、システムの構成・セキュリティ・データの扱いに大きく影響する変更なら、実装の前に新しい design doc を書く。** 作り方が 1 つしかなくても、重要な変更は記録を残す。CMS・新しいデータの流れ・データの持ち方の変更・認証や公開範囲の変更・外部サービスとの連携・サーバーの処理・基盤や規約の変更・複数の機能にまたがる重要な変更がそれにあたる（基準は [docs/design-docs/README.md](docs/design-docs/README.md#いつ書くか)）。静的なページやセクションの追加・通常の UI の変更・テキストや画像の差し替え・スタイル調整・リファクタリング・通常のバグ修正には要らず、PRD などを直せばよい。今の技術構成を記録するためだけに design doc を書かない（それは architecture に書く）
 6. **design doc を自分で承認しない。** 書いたら `review` にして止め、ユーザーの承認を待つ。`review` から `approved` に進めるのは、ユーザーが明示的に承認したときだけ。承認かどうか判断がつかない返事なら、聞き直す
-7. **実装したら、同じ変更の中で specs・architecture・runbooks を今の状態に直す。** design doc は `implemented` にして `pr` を書く
-8. **まだ実装していない案を specs に書かない。** 実装前の変更の案は、design doc の「対象の仕様」に書く
+7. **実装したら、同じ変更（同じ PR）の中で文書を今の状態に直す。** 振る舞いや要件が変わったら PRD、技術構成や規約が変わったら architecture、手順が変わったら runbooks、プロダクト全体の目的・提供価値・成功条件が変わったら product.md。design doc は `implemented` にして `pr` を書く
+8. **まだ実装していない案を PRD に書かない。** 実装前の変更の案は、design doc の「対象の PRD」に書く
 
 `apps/site` にファイルを足す・動かすときは [docs/architecture/directory-structure.md](docs/architecture/directory-structure.md) に従う。判断フロー・各ディレクトリの責務・依存の向き・命名がそこにある。スタイルの書き方は [docs/architecture/styling.md](docs/architecture/styling.md) にある。
 
@@ -45,7 +51,7 @@
 
 **静的ファイルはまとまりで決めない。** ソースから参照するなら使う場所の隣に置いて import、参照しない・ファイル名を保つ必要があるなら `public/`。画像は `astro:assets` の `<Image>` / `<Picture>` で出す。
 
-**UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** サイトは静的出力で、JS は `<script>` を書いたところにしか出ない。React などの UI フレームワークは入れていない。今ブラウザで動く JS は、動きを出すかの判定と画面に入った要素を出す処理（`components/layout/base-layout.astro`・`components/ui/reveal-on-scroll.astro`）と、ページビューを数える Cloudflare Web Analytics のビーコン（`base-layout.astro`。トークンを入れたときだけ出る）だけ（仕様は [docs/specs/site.md](docs/specs/site.md)）。
+**UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** サイトは静的出力で、JS は `<script>` を書いたところにしか出ない。React などの UI フレームワークは入れていない。今ブラウザで動く JS は、動きを出すかの判定と画面に入った要素を出す処理（`components/layout/base-layout.astro`・`components/ui/reveal-on-scroll.astro`）と、ページビューを数える Cloudflare Web Analytics のビーコン（`base-layout.astro`。トークンを入れたときだけ出る）だけ（要件は [docs/prds/site.md](docs/prds/site.md#ブラウザで動く-js)、仕組みは [docs/architecture/overview.md](docs/architecture/overview.md#機能を支える仕組み)）。
 
 ## スタイル（要約）
 

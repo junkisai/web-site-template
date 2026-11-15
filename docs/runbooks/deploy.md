@@ -30,7 +30,7 @@ pnpm -F site exec wrangler deploy --dry-run
 ## 独自ドメインで公開する
 
 1. [apps/site/wrangler.jsonc](../../apps/site/wrangler.jsonc) の `routes` に、Cloudflare で DNS を管理しているドメインを足す（`{ "pattern": "www.example.com", "custom_domain": true }`）。デプロイすると、DNS のレコードと証明書が自動でできる
-2. [apps/site/astro.config.ts](../../apps/site/astro.config.ts) の `site` を同じドメインにする。`site` は OGP の絶対 URL に使う（[specs/page-metadata.md](../specs/page-metadata.md)）
+2. [apps/site/astro.config.ts](../../apps/site/astro.config.ts) の `site` を同じドメインにする。`site` は OGP の絶対 URL に使う（[prds/page-metadata.md](../prds/page-metadata.md)）
 3. ドメインを付けると、workers.dev の URL は既定で止まる。残すなら `wrangler.jsonc` に `"workers_dev": true` を足す
 
 ## PR ごとのプレビュー

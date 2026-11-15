@@ -7,6 +7,8 @@ pr: https://github.com/junkisai/web-site-template/pull/18
 ---
 
 > **状態について。** 移行の作業は、ユーザーの依頼（2026-11-15）に沿って行った。依頼に書かれていなかった細部は、移行を進めた AI エージェントが決めた（[依頼になく、移行で決めたこと](#依頼になく移行で決めたこと)）。エージェントは design doc を自分で承認しないので、ユーザーが確かめるまで `review` に置いた。2026-11-15 にユーザーが確かめて `implemented` にするよう指示したので、`implemented` にした。
+>
+> **2026-11-15 の追記（この文書の後の移行）。** この文書の実装のあと、`docs/specs/` を `docs/prds/` に移し、機能ごとの目的・背景・ゴールも PRD に書くようにした。あわせて `docs/product.md` を足し、specs にあった実現方法の説明を architecture に移した。「やらないこと」にある「PRD の専用ディレクトリは作らない」は、このときに見直した（ADR・RFC・Blueprint の専用ディレクトリは引き続き作らない）。今の体系は [docs/README.md](../README.md) にある。この文書にある specs へのリンクは移した先の PRD に張り替え、旧パスはコードの表記で残した。本文の「specs」「対象の仕様」は当時の名前。
 
 ## 概要
 
@@ -38,11 +40,11 @@ pr: https://github.com/junkisai/web-site-template/pull/18
 
 サイトの仕様は変えない。今の仕様を、既存の design doc・README・AGENTS.md・コードの注釈から次の specs に書き出した。意図を確かめられない振る舞いは、本文に入れず「未確認事項」に置いた。
 
-- [specs/site.md](../specs/site.md)
-- [specs/page-metadata.md](../specs/page-metadata.md)
-- [specs/motion.md](../specs/motion.md)
-- [specs/web-font.md](../specs/web-font.md)
-- [specs/web-analytics.md](../specs/web-analytics.md)
+- `specs/site.md`（今の [prds/site.md](../prds/site.md)）
+- `specs/page-metadata.md`（今の [prds/page-metadata.md](../prds/page-metadata.md)）
+- `specs/motion.md`（今の [prds/motion.md](../prds/motion.md)）
+- `specs/web-font.md`（今の [prds/web-font.md](../prds/web-font.md)）
+- `specs/web-analytics.md`（今の [prds/web-analytics.md](../prds/web-analytics.md)）
 
 ## 設計
 
@@ -67,7 +69,7 @@ pr: https://github.com/junkisai/web-site-template/pull/18
 | `docs/README.md` | （同じ名前） | 5 種類の定義・読み分け・食い違いの扱い・命名に書き直した。無い `references/` を外した |
 | `AGENTS.md` | （同じ名前） | 情報源の扱いと変更の進め方を足した。依存の向きの図を architecture とコードに合わせた |
 | `transcripts/README.md`・`_template.md` | （同じ名前） | 原則として書き換えないこと、決定の正本ではないことを書いた。命名・メタ情報・本文の構成は変えていない |
-| （なし） | [specs/](../specs/README.md) の README・`_template.md`・各 spec | 新しく作った |
+| （なし） | `specs/`（今の [prds/](../prds/README.md)）の README・`_template.md`・各 spec | 新しく作った |
 
 旧ファイル名の日付（`20260819`・`20260825`）は、このリポジトリの最初のコミット（2026-10-31）より前で、このリポジトリの中では由来を確かめられない。日付は旧ファイル名としてこの表と Git の履歴（`git log --follow`）に残る。
 

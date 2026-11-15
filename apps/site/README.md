@@ -1,6 +1,6 @@
 # site
 
-ディレクトリ構成と置き場所の規約は [docs/architecture/directory-structure.md](../../docs/architecture/directory-structure.md)、スタイルの書き方は [docs/architecture/styling.md](../../docs/architecture/styling.md) にある。**新しいファイルを作る前に読む。** サイトの仕様は [docs/specs/](../../docs/specs/README.md) にある。
+ディレクトリ構成と置き場所の規約は [docs/architecture/directory-structure.md](../../docs/architecture/directory-structure.md)、スタイルの書き方は [docs/architecture/styling.md](../../docs/architecture/styling.md) にある。**新しいファイルを作る前に読む。** 機能ごとの要件と振る舞いは [docs/prds/](../../docs/prds/README.md)、テンプレート全体の目的は [docs/product.md](../../docs/product.md)、使っている技術と機能を支える仕組みは [docs/architecture/overview.md](../../docs/architecture/overview.md) にある。
 
 ## 構成の要点
 
