@@ -9,7 +9,7 @@ type Props = {
   siteName?: string
   /** OGP 画像。public/ からのパス。絶対 URL にするため、astro.config.ts の site が無いうちは出さない */
   ogImage?: { path: string; width: number; height: number; alt: string }
-  /** 検索結果に載せない（noindex, nofollow）。アクセスの制限ではなく、URL を知っていれば誰でも見られる。閲覧者を限るなら認証やアクセス制御を別に入れる */
+  /** 検索結果に載せないよう検索エンジンに求める（noindex, nofollow）。アクセスの制限ではなく、URL を知っていれば誰でも見られる。閲覧者を限るなら認証やアクセス制御を別に入れる */
   noindex?: boolean
 }
 
