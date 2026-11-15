@@ -1,6 +1,6 @@
 # web-site-template
 
-ログインも DB も無い Web サイト（LP・キャンペーンページ・会社や個人のサイト）を始めるためのテンプレートです。Astro の静的出力でページを作り、Cloudflare Workers の静的アセットとして配ります。ブラウザに JS を送らない構成と、置き場所・依存の向き・命名の規約を、最初から lint で守らせます。
+ログインも DB も無い Web サイト（LP・キャンペーンページ・会社や個人のサイト）を始めるためのテンプレートです。Astro の静的出力でページを作り、Cloudflare Workers の静的アセットとして配ります。UI フレームワークのランタイムをブラウザに送らず、JS を必要な機能に限る構成にしてあり、置き場所・依存の向き・命名の規約を最初から lint で守らせます。
 
 ログインや DB のある Web アプリは [web-app-template](https://github.com/junkisai/web-app-template) から作ります。
 
@@ -33,7 +33,7 @@
 | 開発・デプロイの手順 | [docs/runbooks/](./docs/README.md#runbooks) |
 | 会話・録音の記録 | [docs/transcripts/](./docs/transcripts/README.md) |
 
-規約の要約とエージェント向けの作業の進め方は [AGENTS.md](./AGENTS.md) にあり、`CLAUDE.md` はそのシンボリックリンクです。編集するのは `AGENTS.md` の側です。重要な設計変更は、実装の前に [docs/design-docs/](./docs/design-docs/README.md) に design doc を書き、承認を得てから実装します。
+規約の要約とエージェント向けの作業の進め方は [AGENTS.md](./AGENTS.md) にあり、`CLAUDE.md` はそのシンボリックリンクです。編集するのは `AGENTS.md` の側です。複数の作り方を比べて選ぶ設計変更は、実装の前に [docs/design-docs/](./docs/design-docs/README.md) に design doc を書き、承認を得てから実装します。静的なページの追加やテキスト・画像の差し替えなら、specs を直すだけです。
 
 ## テンプレートから作ったら
 

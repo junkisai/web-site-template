@@ -17,7 +17,7 @@ GitHub の「Use this template」でリポジトリを作ったあとにやる�
 
 ## 必要になったら
 
-- **検索に出したくないページ:** そのページの `BaseLayout` に `noindex` を付ける（[specs/page-metadata.md](../specs/page-metadata.md#検索エンジン)）
+- **検索結果に載せたくないページ:** そのページの `BaseLayout` に `noindex` を付ける（[specs/page-metadata.md](../specs/page-metadata.md#検索エンジン)）。アクセスの制限にはならないので、閲覧できる人を限るなら認証やアクセス制御を別に入れる
 - **OGP 画像:** `apps/site/public/` に置き、`BaseLayout` の `ogImage` に `public/` からのパス・幅・高さ・代替テキストを渡す。`site` を入れるまでは出ない
 - **サイト名（`og:site_name`）:** `BaseLayout` の `siteName` に渡す
 - **favicon:** 置くまでは、ブラウザが `/favicon.ico` を取りに行かないよう `base-layout.astro` に `<link rel="icon" href="data:," />` を置いてある。favicon を置いたら、この行を差し替える

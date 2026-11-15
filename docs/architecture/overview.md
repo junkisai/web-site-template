@@ -34,7 +34,7 @@ pnpm workspace と Turborepo のモノレポ。
 | `docs/` | ドキュメント（[docs/README.md](../README.md)） |
 | ルート | workspace・タスク・lint・整形・Git フック・Renovate の設定 |
 
-`packages/` は無い。管理画面のような 2 つ目の入口が要るようになったら、`apps/` に別アプリとして足す（[directory-structure.md の「入口が増えたとき」](directory-structure.md#入口が増えたとき)）。
+`packages/` は無い。管理画面のような 2 つ目の入口を別アプリとして作ると決めたら、`apps/` に足す（[directory-structure.md の「入口が増えたとき」](directory-structure.md#入口が増えたとき)）。
 
 ## apps/site
 
@@ -68,8 +68,10 @@ pnpm workspace と Turborepo のモノレポ。
 
 ## 構成上の制約
 
-- **静的出力だけ。** リクエストごとのサーバーの処理は持たない。要るようになったら design doc を書いて検討する（当時の design doc は、Astro の Cloudflare adapter をそのときに入れる案を挙げている）
-- **ブラウザに送る JS を増やさない。** React などの UI フレームワークは入れていない。JS は `<script>` を書いたところにだけ出る（[specs/site.md](../specs/site.md#ブラウザで動く-js)）
+最初の 2 つは、テンプレートから引き継いだ既定の方針。**ユーザーが明示的に求めれば見直してよい。** 見直すときは、今の構成を保つ案と変える案を比べ、design doc に書いて決める。それ以外は、道具や運用の都合による今の制約。
+
+- **静的出力を基本にする。** 今は、リクエストごとのサーバーの処理を持たない。フォームの送信・ログイン・DB のようにサーバーの処理が要るようになったら、今の構成を保つ案（外部のサービスに任せる、`apps/` に別アプリを足す）と、構成を変える案（Astro の Cloudflare adapter を入れ、サイトにサーバーの処理を持たせる）を比べる
+- **UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** React などの UI フレームワークは入れていない。JS は `<script>` を書いたところにだけ出る。今ブラウザで動く JS は、動き（出すかの判定と、画面に入った要素を出す処理）と、トークンを入れたときのアクセス解析のビーコンだけ（[specs/site.md](../specs/site.md#ブラウザで動く-js)）
 - **TypeScript は 6 系に据え置く。** `.astro` の型を検査する `astro check` が TypeScript 7 で動かないため（[withastro/astro#17268](https://github.com/withastro/astro/issues/17268)）
 - **`styled-system/` はコミットしない。** `pnpm install`（`apps/site` の `prepare`）と `pnpm lint`（turbo の `gen`）の前に作り直す
 - **依存は、公開から 7 日経った版だけを入れる。** pnpm（`minimumReleaseAge`）と Renovate の両方で設定していて、2 つの長さは揃える（[runbooks/minimum-release-age.md](../runbooks/minimum-release-age.md)）

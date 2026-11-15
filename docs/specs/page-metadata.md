@@ -26,8 +26,9 @@
 
 ### 検索エンジン
 
-- 既定では、すべてのページを検索に出す
-- 検索に出さないと指定したページには、`<meta name="robots" content="noindex, nofollow">` を出す。限られた人にだけ配るページで使う
+- 既定では、すべてのページを検索結果に載せる
+- 検索結果に載せたくないと指定したページには、`<meta name="robots" content="noindex, nofollow">` を出す
+- **`noindex` は検索結果への掲載を抑える指定で、アクセスの制限ではない。** URL を知っていれば誰でも閲覧できる。閲覧できる人を限るページは `noindex` に頼らず、認証やアクセス制御を別に入れる（今のテンプレートには無い）
 
 ### favicon
 
@@ -41,7 +42,7 @@
 
 - [ ] テンプレートの状態（公開する URL を入れていない）でビルドすると、`og:type`・`og:title`・`og:description`・`og:locale` が出て、`og:url`・`og:image`・`twitter:card` は出ない
 - [ ] 公開する URL を入れると、`og:url` がそのページの絶対 URL になる
-- [ ] 検索に出さないと指定したページにだけ、`noindex, nofollow` が出る
+- [ ] 検索結果に載せたくないと指定したページにだけ、`noindex, nofollow` が出る
 
 ## 未確認事項
 

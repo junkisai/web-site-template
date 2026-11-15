@@ -22,10 +22,11 @@
 1. **頼まれた変更を、新しい検討の起点にする。** 過去の design doc に違う判断や「この先もやらない」が書いてあっても、それを理由に断らない。過去の判断は、捨てた理由が今も当てはまるかを確かめる材料として読む
 2. **今の specs・architecture との違いを確かめる。** 何が変わるか、影響範囲はどこまでかを書き出す
 3. **既存の制約とぶつかるなら、影響・リスク・取りうる案を示して判断を仰ぐ。** 安全性や技術的な制約（lint で守らせている規約、TypeScript の版など）を黙って無視しない。制約を理由に黙って断ることもしない
-4. **重要な設計変更なら、実装の前に新しい design doc を書く。** 書くかどうかの基準は [docs/design-docs/README.md](docs/design-docs/README.md#いつ書くか) にある。文言修正・スタイル調整・リファクタリング・通常のバグ修正には要らない
-5. **design doc を自分で承認しない。** 書いたら `review` にして止め、ユーザーの承認を待つ。`review` から `approved` に進めるのは、ユーザーが明示的に承認したときだけ。承認かどうか判断がつかない返事なら、聞き直す
-6. **実装したら、同じ変更の中で specs・architecture・runbooks を今の状態に直す。** design doc は `implemented` にして `pr` を書く
-7. **まだ実装していない案を specs に書かない。** 実装前の変更の案は、design doc の「対象の仕様」に書く
+4. **テンプレートから引き継いだ方針（静的出力を基本にする・ログインや DB を持たない・JS を必要な機能に限る など）は、ユーザーが明示的に求めれば見直してよい。** 既定の方針として守るが、変更を断る理由にはしない。見直すときは、今の構成を保つ案と変える案を比べて design doc に書く（[docs/architecture/overview.md](docs/architecture/overview.md#構成上の制約)）
+5. **複数の作り方を比べて選ぶ変更なら、実装の前に新しい design doc を書く。** CMS・新しいデータの流れ・認証・外部サービスとの連携・サーバーの処理・基盤や規約の変更がそれにあたる（基準は [docs/design-docs/README.md](docs/design-docs/README.md#いつ書くか)）。静的なページやセクションの追加・通常の UI の変更・テキストや画像の差し替え・スタイル調整・リファクタリング・通常のバグ修正には要らず、specs などを直せばよい
+6. **design doc を自分で承認しない。** 書いたら `review` にして止め、ユーザーの承認を待つ。`review` から `approved` に進めるのは、ユーザーが明示的に承認したときだけ。承認かどうか判断がつかない返事なら、聞き直す
+7. **実装したら、同じ変更の中で specs・architecture・runbooks を今の状態に直す。** design doc は `implemented` にして `pr` を書く
+8. **まだ実装していない案を specs に書かない。** 実装前の変更の案は、design doc の「対象の仕様」に書く
 
 `apps/site` にファイルを足す・動かすときは [docs/architecture/directory-structure.md](docs/architecture/directory-structure.md) に従う。判断フロー・各ディレクトリの責務・依存の向き・命名がそこにある。スタイルの書き方は [docs/architecture/styling.md](docs/architecture/styling.md) にある。
 
@@ -43,7 +44,7 @@
 
 **静的ファイルはまとまりで決めない。** ソースから参照するなら使う場所の隣に置いて import、参照しない・ファイル名を保つ必要があるなら `public/`。画像は `astro:assets` の `<Image>` / `<Picture>` で出す。
 
-**ブラウザに JS を送らない。** サイトは静的出力で、JS は `<script>` を書いたところにしか出ない。React などの UI フレームワークは入れていない。外から読む JS は、ページビューを数える Cloudflare Web Analytics のビーコン（`components/layout/base-layout.astro`。トークンを入れたときだけ出る）だけ（仕様は [docs/specs/site.md](docs/specs/site.md)）。
+**UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** サイトは静的出力で、JS は `<script>` を書いたところにしか出ない。React などの UI フレームワークは入れていない。今ブラウザで動く JS は、動きを出すかの判定と画面に入った要素を出す処理（`components/layout/base-layout.astro`・`components/ui/reveal-on-scroll.astro`）と、ページビューを数える Cloudflare Web Analytics のビーコン（`base-layout.astro`。トークンを入れたときだけ出る）だけ（仕様は [docs/specs/site.md](docs/specs/site.md)）。
 
 ## スタイル（要約）
 
