@@ -8,8 +8,8 @@
 
 ## 背景・解決する課題
 
-- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（画面に入ったら出す動き）として切り出した（[design doc の「背景」](../design-docs/20261031_web-site-template.md#背景)）
-- 「出る前」に要素を隠すスタイルを、動きを出すときだけ当てる。こうして、JS が動かない・動きを減らす設定の環境でも、最初から全部見えるようにしている（[design doc の「JS」](../design-docs/20261031_web-site-template.md#js)、`base-layout.astro` の注釈）
+- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（画面に入ったら出す動き）として切り出した（[product.md の「解決する課題」](../product.md#解決する課題)）
+- 「出る前」に要素を隠すスタイルを、動きを出すときだけ当てる。こうして、JS が動かない・動きを減らす設定の環境でも、最初から全部見えるようにしている（`base-layout.astro` の注釈）
 - 動きを止めた状態で表示を確かめられるよう、URL で動きを止める指定を持つ
 
 ## 対象ユーザー・スコープ
@@ -80,7 +80,6 @@
 
 - Product: [product.md](../product.md)
 - Architecture: [styling.md の「動き」](../architecture/styling.md#動き)（判定と画面に入ったかを見る仕組み・`_motion`・`_shown`・`_inShown`・`data-reveal` の書き方）
-- Design Docs: [20261031_web-site-template.md](../design-docs/20261031_web-site-template.md)
 - Runbooks: [development.md の「開発サーバー」](../runbooks/development.md#開発サーバー)（動きを止めて見る）
 - 関連する PRD: [site.md](site.md)（JS が動かないとき）
 - 根拠となる実装: `apps/site/src/components/layout/base-layout.astro`（動きを出すかの判定）、`apps/site/src/components/ui/reveal-on-scroll.astro`（画面に入った要素に印を付ける）、`apps/site/panda.config.ts` の `conditions`・`globalCss`、`apps/site/src/screens/top/index.astro`（使う例）

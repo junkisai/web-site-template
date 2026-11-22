@@ -5,14 +5,13 @@
 ## 扱い
 
 - **原則として書き換えない。** 録音のメタ情報（frontmatter）・発言の内容・生文字起こしは、残した時点のまま保つ。要約とネクストアクションの誤りに気づいたら直してよいが、話された内容を後から変えない
-- **決まったことの正本ではない。** 会話で決まったプロダクトの目的は [product.md](../product.md) に、機能の要件は [prds](../prds/README.md) に、構成は [architecture](../README.md#architecture) に、手順は [runbooks](../README.md#runbooks) に、判断の経緯は [design doc](../design-docs/README.md) に書いて初めて有効になる。transcript は、その根拠として design doc などからリンクする
+- **決まったことの正本ではない。** 会話で決まったプロダクトの目的は [product.md](../product.md) に、機能の要件は [prds](../prds/README.md) に、構成は [architecture](../README.md#architecture) に、手順は [runbooks](../README.md#runbooks) に書いて初めて有効になる。判断の経緯は PR の本文とコミットに書き、transcript はその根拠として PR などからリンクする
 - 古い会話で話したことと今の product.md・PRD が違うときは、今の product.md・PRD が今の目的と要件
 
 ## 命名規則
 
 - 1録音 = 1ファイル。ファイル名は `YYYY-MM-DD-<topic>.md`。
   - `YYYY-MM-DD` は録音日。`<topic>` は内容がわかる短い kebab-case（英数字とハイフン）。
-  - design doc の `YYYYMMDD_` とは日付の書き方が違う。どちらも凍結する文書なので日付を付けるが、ここは録音日を表すこの置き場所の規則に従う。
   - 例: `2026-06-29-elink-kickoff.md`
 - 同じ日に複数ある場合は末尾に連番を付ける（`2026-06-29-elink-kickoff-2.md`）。
 

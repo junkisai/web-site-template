@@ -8,9 +8,9 @@
 
 ## 背景・解決する課題
 
-- 日本語の書体をそのまま読むと、字の範囲ごとのファイルが 1 書体で 100 個以上になり、`@font-face` だけで HTML が数百 KB になる（[design doc の「書体」](../design-docs/20261031_web-site-template.md#書体)、`astro.config.ts` の注釈）
-- 書体を外の配信（Google Fonts の `<link>`）から読むと、字の範囲ごとのファイルと、外のドメインへの接続が増える（[design doc の「検討した他の案」](../design-docs/20261031_web-site-template.md#検討した他の案)）
-- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（日本語の書体を使う字だけ切り出す）として切り出した（[design doc の「背景」](../design-docs/20261031_web-site-template.md#背景)）
+- 日本語の書体をそのまま読むと、字の範囲ごとのファイルが 1 書体で 100 個以上になり、`@font-face` だけで HTML が数百 KB になる（`astro.config.ts` の注釈）
+- 書体を外の配信（Google Fonts の `<link>`）から読むと、字の範囲ごとのファイルと、外のドメインへの接続が増える（[テンプレートを作ったときの記録の「検討した他の案」](https://github.com/junkisai/web-site-template/blob/aaa2cbbdb77e2447ac00427379344e434e7ee40a/docs/design-docs/20261031_web-site-template.md#検討した他の案)）
+- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（日本語の書体を使う字だけ切り出す）として切り出した（[product.md の「解決する課題」](../product.md#解決する課題)）
 
 ## 対象ユーザー・スコープ
 
@@ -69,7 +69,6 @@
 
 - Product: [product.md](../product.md)
 - Architecture: [overview.md の「書体」](../architecture/overview.md#書体)（取ってくる先・字の集め方・読み込み方）
-- Design Docs: [20261031_web-site-template.md](../design-docs/20261031_web-site-template.md)（字の範囲ごとのファイルにしない理由・Google Fonts の `<link>` を採らなかった理由）
 - Runbooks: [development.md の「開発サーバー」](../runbooks/development.md#開発サーバー)（新しい字を書いたとき）
 - 関連する PRD: [site.md](site.md)
 - 根拠となる実装: `apps/site/astro.config.ts` の `fonts`、`apps/site/scripts/collect-glyphs.ts`、`apps/site/src/components/layout/base-layout.astro` の `<Font>`

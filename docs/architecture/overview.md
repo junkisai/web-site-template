@@ -1,8 +1,8 @@
 # 全体の構成
 
-今の構成。テンプレート全体の目的は [product.md](../product.md)、機能ごとに何を満たすべきかは [prds/](../prds/README.md)、ファイルの置き場所は [directory-structure.md](directory-structure.md)、スタイルの書き方は [styling.md](styling.md)、この構成にした理由は [design doc](../design-docs/20261031_web-site-template.md) にある。
+今の構成。テンプレート全体の目的は [product.md](../product.md)、機能ごとに何を満たすべきかは [prds/](../prds/README.md)、ファイルの置き場所は [directory-structure.md](directory-structure.md)、スタイルの書き方は [styling.md](styling.md) にある。この構成にした理由と捨てた案は、その変更のコミットと PR にある。
 
-**今使っている技術と構成の正本はこの文書。** design doc に書いた当時の構成と今が違うときは、こちらが今の構成。構成を変えたら、同じ変更の中でこの文書を直す。
+**今使っている技術と構成の正本はこの文書。** PR やコミットに書いた当時の構成と今が違うときは、こちらが今の構成。構成を変えたら、同じ変更の中でこの文書を直す。
 
 ## システムの形
 
@@ -83,7 +83,7 @@ pnpm workspace と Turborepo のモノレポ。
 [prds/web-analytics.md](../prds/web-analytics.md) の実現。
 
 - Cloudflare Web Analytics のビーコン（`https://static.cloudflareinsights.com/beacon.min.js`）を、`base-layout.astro` の `<body>` の末尾に `defer` で書く。サイトのトークンは同じファイルの定数 `webAnalyticsToken` に書き、`data-cf-beacon` で渡す。定数が空なら、ビーコンを出さない
-- Cloudflare の自動の設定には任せず、サイトの側でビーコンを書く。理由は [design doc の「アクセス解析と検索」](../design-docs/20261031_web-site-template.md#アクセス解析と検索)にある
+- Cloudflare の自動の設定には任せず、サイトの側でビーコンを書く。理由は `base-layout.astro` のビーコンの注釈にある
 - トークンを環境変数にしない理由は、[構成上の制約](#構成上の制約)にある
 
 ### 画面幅
@@ -114,7 +114,7 @@ pnpm workspace と Turborepo のモノレポ。
 
 ## 構成上の制約
 
-最初の 2 つは、テンプレートから引き継いだ既定の方針。**ユーザーが明示的に求めれば見直してよい。** 見直すときは、今の構成を保つ案と変える案を比べ、design doc に書いて決める。それ以外は、道具や運用の都合による今の制約。
+最初の 2 つは、テンプレートから引き継いだ既定の方針。**ユーザーが明示的に求めれば見直してよい。** 見直すときは、今の構成を保つ案と変える案を比べて決め、選んだ理由と捨てた案を PR の本文に書く。それ以外は、道具や運用の都合による今の制約。
 
 - **静的出力を基本にする。** 今は、リクエストごとのサーバーの処理を持たない。フォームの送信・ログイン・DB のようにサーバーの処理が要るようになったら、今の構成を保つ案（外部のサービスに任せる、`apps/` に別アプリを足す）と、構成を変える案（Astro の Cloudflare adapter を入れ、サイトにサーバーの処理を持たせる）を比べる
 - **UI フレームワークのランタイムを送らず、JS は必要な機能に限る。** React などの UI フレームワークは入れていない。JS は `<script>` を書いたところにだけ出る。今ブラウザで動く JS は、動き（出すかの判定と、画面に入った要素を出す処理）と、トークンを入れたときのアクセス解析のビーコンだけ（要件は [prds/site.md](../prds/site.md#ブラウザで動く-js)）
