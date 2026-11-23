@@ -8,8 +8,8 @@
 
 ## 背景・解決する課題
 
-- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（OGP・検索に出さない指定）として切り出した（[design doc の「背景」](../design-docs/20261031_web-site-template.md#背景)）
-- OGP の URL は絶対 URL にする。そのため、公開する URL が決まるまでは `og:url`・`og:image` を出さない（[design doc の「トレードオフ」](../design-docs/20261031_web-site-template.md#トレードオフ)）
+- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（OGP・検索に出さない指定）として切り出した（[product.md の「解決する課題」](../product.md#解決する課題)）
+- OGP の URL は絶対 URL にする。そのため、公開する URL が決まるまでは `og:url`・`og:image` を出さない（`astro.config.ts`・`base-layout.astro` の注釈）
 - favicon を置かないうちにブラウザが `/favicon.ico` を取りに行くと 404 になる。これを止める（`base-layout.astro` の注釈）
 
 ## 対象ユーザー・スコープ
@@ -92,7 +92,6 @@
 
 - Product: [product.md](../product.md)
 - Architecture: [overview.md の「ページのメタ情報」](../architecture/overview.md#ページのメタ情報)（値の渡し方・公開する URL の設定）、[directory-structure.md の「静的ファイルの置き場所」](../architecture/directory-structure.md#静的ファイルの置き場所)（OGP 画像・favicon を置く `public/`）
-- Design Docs: [20261031_web-site-template.md](../design-docs/20261031_web-site-template.md)
 - Runbooks: [start-from-template.md](../runbooks/start-from-template.md)（公開する URL・OGP 画像・サイト名・`noindex`・favicon の入れ方）、[deploy.md の「独自ドメインで公開する」](../runbooks/deploy.md#独自ドメインで公開する)
 - 関連する PRD: [site.md](site.md)
 - 根拠となる実装: `apps/site/src/components/layout/base-layout.astro`、`apps/site/astro.config.ts` の `site`

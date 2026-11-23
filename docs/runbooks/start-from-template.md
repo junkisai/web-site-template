@@ -14,7 +14,6 @@ GitHub の「Use this template」でリポジトリを作ったあとにやる�
 | [README.md](../../README.md) | リポジトリの名前と説明 |
 | [docs/product.md](../product.md) | テンプレートの目的・対象・提供価値を、作るサイトのものに書き直す。根拠のない目標や数値は書かず、わからないことは「未確認事項・仮説」に置く |
 | [docs/prds/](../prds/README.md) | テンプレートの要件を、作るサイトの要件に直す（ページの一覧など）。直すのは実装と同じ変更の中 |
-| [docs/design-docs/README.md](../design-docs/README.md) | design doc の一覧 |
 
 ## 必要になったら
 

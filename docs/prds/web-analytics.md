@@ -8,8 +8,8 @@
 
 ## 背景・解決する課題
 
-- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（アクセス解析の受け口）として切り出した（[design doc の「背景」](../design-docs/20261031_web-site-template.md#背景)）
-- Cloudflare の自動の設定には任せないので、トークンを手で入れるまでページビューは数えられない（[design doc の「アクセス解析と検索」「トレードオフ」](../design-docs/20261031_web-site-template.md#アクセス解析と検索)）
+- テンプレートのもとになった案件で足した仕組みのうち、中身に依存しないもの（アクセス解析の受け口）として切り出した（[product.md の「解決する課題」](../product.md#解決する課題)）
+- Cloudflare の自動の設定には任せないので、トークンを手で入れるまでページビューは数えられない（`base-layout.astro` のビーコンの注釈）
 
 ## 対象ユーザー・スコープ
 
@@ -64,7 +64,6 @@
 
 - Product: [product.md](../product.md)
 - Architecture: [overview.md の「アクセス解析」](../architecture/overview.md#アクセス解析)（ビーコンの出し方・トークンの置き場所）
-- Design Docs: [20261031_web-site-template.md](../design-docs/20261031_web-site-template.md)（Cloudflare の自動の設定に任せない理由）
 - Runbooks: [start-from-template.md](../runbooks/start-from-template.md)（トークンの入れ方）
 - 関連する PRD: [site.md](site.md)
 - 根拠となる実装: `apps/site/src/components/layout/base-layout.astro` の `webAnalyticsToken`

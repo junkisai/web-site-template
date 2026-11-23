@@ -8,7 +8,7 @@
 
 ## 背景・解決する課題
 
-- ログインと DB のある Web アプリ用の [web-app-template](https://github.com/junkisai/web-app-template) から文章と画像が中心のサイトを作ると、使わないものを消す作業から始まり、静的に書き出しても React のランタイムがページに届いた（[design doc の「背景」](../design-docs/20261031_web-site-template.md#背景)）
+- ログインと DB のある Web アプリ用の [web-app-template](https://github.com/junkisai/web-app-template) から文章と画像が中心のサイトを作ると、使わないものを消す作業から始まり、静的に書き出しても React のランタイムがページに届いた（[product.md の「解決する課題」](../product.md#解決する課題)）
 - サイトは軽さがそのまま成果に効き、初回表示が遅いと読まれる前に離脱される、というのがこのテンプレートの前提（同）。前提を裏付ける数値は、このリポジトリには無い（[product.md の「未確認事項・仮説」](../product.md#未確認事項仮説)）
 
 ## 対象ユーザー・スコープ
@@ -17,7 +17,7 @@
 - 対象の画面・URL: サイトのすべてのページ（今あるページは[ページ](#ページ)の表）
 - できる操作: 閲覧者はページを読み、ページの中のリンクをたどる
 - 対象の範囲: ページの配り方・ページの一覧・言語・画面幅・ブラウザで動く JS・外部への接続
-- 対象外: ログイン・DB・管理画面。テンプレートを作ったときに「この先もやらない。要るなら web-app-template から作る」と決めた（[design doc の「やらないこと」](../design-docs/20261031_web-site-template.md#やらないこと)）。テンプレートから引き継いだ既定の方針で、ユーザーが明示的に求めれば見直してよい（[product.md の「スコープ・非ゴール」](../product.md#スコープ非ゴール)）
+- 対象外: ログイン・DB・管理画面。テンプレートを作ったときに「この先もやらない。要るなら web-app-template から作る」と決めた（[テンプレートを作ったときの記録の「やらないこと」](https://github.com/junkisai/web-site-template/blob/aaa2cbbdb77e2447ac00427379344e434e7ee40a/docs/design-docs/20261031_web-site-template.md#やらないこと)）。テンプレートから引き継いだ既定の方針で、ユーザーが明示的に求めれば見直してよい（[product.md の「スコープ・非ゴール」](../product.md#スコープ非ゴール)）
 
 ## ゴール・成功条件
 
@@ -83,7 +83,7 @@
 
 ### 実装から読み取れる現状
 
-- **ログイン・DB・管理画面のほかに、フォームの送信・CMS からのデータ取得・リクエストごとのサーバーの処理も無い。** フォームとサーバーの処理、CMS は、テンプレートを作ったときに「今はやらない（要るサイトで、そのとき design doc を書く）」とした（[design doc の「やらないこと」](../design-docs/20261031_web-site-template.md#やらないこと)）。この先も持たないと決めたものではない。要るようになったときに今の構成を保つか変えるかは、[architecture/overview.md の「構成上の制約」](../architecture/overview.md#構成上の制約)で扱う
+- **ログイン・DB・管理画面のほかに、フォームの送信・CMS からのデータ取得・リクエストごとのサーバーの処理も無い。** フォームとサーバーの処理、CMS は、テンプレートを作ったときに、今はやらない（要るサイトで、そのとき作り方を決める）とした（[テンプレートを作ったときの記録の「やらないこと」](https://github.com/junkisai/web-site-template/blob/aaa2cbbdb77e2447ac00427379344e434e7ee40a/docs/design-docs/20261031_web-site-template.md#やらないこと)）。この先も持たないと決めたものではない。要るようになったときに今の構成を保つか変えるかは、[architecture/overview.md の「構成上の制約」](../architecture/overview.md#構成上の制約)で扱う
 - **存在しない URL への応答。** 配信の設定は「404 のページを返す」だが、404 のページは無い（[architecture/overview.md の「存在しない URL」](../architecture/overview.md#存在しない-url)）。2026-11-15 に手元で Workers の実行環境を立ち上げて確かめたところ、ステータス 404 と空の本文が返った。本番の Cloudflare で同じかは確かめていない
 
 ### 未確認事項
@@ -96,7 +96,6 @@
 
 - Product: [product.md](../product.md)
 - Architecture: [overview.md](../architecture/overview.md)（システムの形・機能を支える仕組み・構成上の制約）、[styling.md](../architecture/styling.md)（画面幅の切り替えの書き方）
-- Design Docs: [20261031_web-site-template.md](../design-docs/20261031_web-site-template.md)
 - Runbooks: [start-from-template.md](../runbooks/start-from-template.md)（仮のトップページを置き換える）
 - 関連する PRD: [page-metadata.md](page-metadata.md)・[motion.md](motion.md)・[web-font.md](web-font.md)・[web-analytics.md](web-analytics.md)
 - 根拠となる実装: `apps/site/src/pages/index.astro`、`apps/site/src/components/layout/base-layout.astro`、`apps/site/wrangler.jsonc`、`apps/site/panda.config.ts` の `theme.breakpoints`
